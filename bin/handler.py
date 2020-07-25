@@ -71,16 +71,15 @@ class Handle:
     async def process_message(message, bot):
         content = message.content
         embed = await Handle.create_embed(message)
-        try:
-            asyncio.wait(0.2)
-            await message.delete()
-        except discord.ext.commands.errors.MissingPermissions:
-            await message.channel.send("Missing permission")
-            return
         list_message = []
         for channel_id in Handle.get_list_channels():
             channel = bot.get_channel(channel_id)
             if channel == None: continue
-            message = await channel.send(embed=embed)
-            list_message.append((str(message.id) ,str(message.channel.id)))
+            new_message = await channel.send(embed=embed)
+            list_message.append((str(new_message.id) ,str(new_message.channel.id)))
+        try:
+            await message.delete()
+        except discord.ext.commands.errors.MissingPermissions:
+            await message.channel.send("Missing permission")
+            return
         await Handle.add_message_to_cache(list_message)
