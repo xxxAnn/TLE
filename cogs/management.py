@@ -10,7 +10,7 @@ class Management(commands.Cog):
 
     @commands.command()
     async def POP_CHANNEL(self, ctx, channel_id: int):
-        if ctx.user.id in managers:
+        if ctx.author.id in managers:
             with open('bin/channels.json', 'r') as f:
                 cache = json.loads(f.read())
                 f.close()
@@ -28,7 +28,7 @@ class Management(commands.Cog):
 
     @commands.command()
     async def ADD_CHANNEL(self, ctx, channel_id: int):
-        if ctx.user.id in managers:
+        if ctx.author.id in managers:
             with open('bin/channels.json', 'r') as f:
                 cache = json.loads(f.read())
                 f.close()
@@ -46,7 +46,7 @@ class Management(commands.Cog):
 
     @commands.command()
     async def CLEAR_CHANNELS(self, ctx):
-        if ctx.user.id == 331431342438875137:
+        if ctx.author.id == 331431342438875137:
             with open('bin/channels.json', 'r') as f:
                 cache = json.loads(f.read())
                 f.close()
