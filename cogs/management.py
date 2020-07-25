@@ -45,7 +45,7 @@ class Management(commands.Cog):
             await ctx.send("This bot is currently private")
 
     @commands.command()
-    async def CLEAR_CHANNELS(self, ctx, channel_id: int):
+    async def CLEAR_CHANNELS(self, ctx):
         if ctx.user.id == 331431342438875137:
             with open('bin/channels.json', 'r') as f:
                 cache = json.loads(f.read())
