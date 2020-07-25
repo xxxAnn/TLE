@@ -3,13 +3,17 @@ import discord
 import discord.ext
 from discord.ext.commands import Bot
 import json
+import asyncio
 
 class Handle:
 
     @staticmethod
     async def create_embed(message):
         embed = discord.Embed(title='Guild: {}'.format(message.guild.name),color=0x70f76e)
-        embed.add_field(name="Message:", value=message.content)
+        if message.content != "":
+            embed.add_field(name="Message:", value=message.content)
+        if len(message.attachments)>0:
+            embed.set_image(url=message.attachments[0].url)
         embed.set_footer(text="Sent by: {}".format(message.author.name), icon_url=message.author.avatar_url)
         return embed
 
@@ -45,7 +49,8 @@ class Handle:
                         return tuple
         else:
             raise TypeError
-        return Nones
+        return None
+
     @staticmethod
     async def add_message_to_cache(list_message):
         with open('bin/cache/deleter.json', 'r') as f:
@@ -67,6 +72,7 @@ class Handle:
         content = message.content
         embed = await Handle.create_embed(message)
         try:
+            asyncio.wait(0.2)
             await message.delete()
         except discord.ext.commands.errors.MissingPermissions:
             await message.channel.send("Missing permission")
