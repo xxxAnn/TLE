@@ -38,7 +38,5 @@ async def on_message_delete(message):
     LIST_CHANNELS = Handle.get_list_channels()
     if message.channel.id in LIST_CHANNELS and message.author.id == client.user.id:
         await Handle.process_deletion(message, client)
-    client.process_command(message)
-
 
 client.run(token.TOKEN)
