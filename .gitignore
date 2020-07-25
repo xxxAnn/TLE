@@ -1,6 +1,4 @@
 bin/secret.py
 *.pyc
 *.json
-*.json
-bin/cache/deleter.json
 bin/cache/deleter.json
