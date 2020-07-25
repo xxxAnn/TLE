@@ -9,12 +9,13 @@ class Handle:
 
     @staticmethod
     async def create_embed(message):
-        embed = discord.Embed(title='Guild: {}'.format(message.guild.name),color=0x70f76e)
+        embed = discord.Embed(title='{}'.format(message.guild.name),color=0x70f76e)
         if message.content != "":
-            embed.add_field(name="Message:", value=message.content)
+            embed.add_field(name="_ _", value='**{1}**: {0}'.format(message.content, message.author.name))
+        else:
+            embed.set_footer(text="Sent by: {}".format(message.author.name), icon_url=message.author.avatar_url)
         if len(message.attachments)>0:
-            embed.set_image(url=message.attachments[0].url)
-        embed.set_footer(text="Sent by: {}".format(message.author.name), icon_url=message.author.avatar_url)
+            embed.set_image(url=message.attachments[0].proxy_url)
         return embed
 
 
@@ -78,6 +79,7 @@ class Handle:
             new_message = await channel.send(embed=embed)
             list_message.append((str(new_message.id) ,str(new_message.channel.id)))
         try:
+            await asyncio.sleep(0.2)
             await message.delete()
         except discord.ext.commands.errors.MissingPermissions:
             await message.channel.send("Missing permission")
