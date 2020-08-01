@@ -12,32 +12,7 @@ from discord.ext.commands import has_permissions, MissingPermissions, CommandNot
 from resource.globals import get_channels
 
 
-BOT_PREFIX = ("TLE2_")
-client = Bot(command_prefix=BOT_PREFIX, case_insensitive=True)
-client.case_insensitive = True
 
-
-@client.event
-async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
-    await client.change_presence(activity=discord.Game(name="Bringing communities together", type=1))
-    client.load_extension('resource.discord.commands')
-
-
-@client.event
-async def on_message_delete(message):
-    if message.channel.id in get_channels() and message.author.id == client.user.id:
-        await client.telephone.handle_discord_deletion(message)
-
-
-@client.event
-async def on_message(message):
-    if message.channel.id in get_channels() and message.author.id != client.user.id:
-        await client.telephone.handle_discord_message(message)
-    await client.process_commands(message)
 
 
 class Telephone(WebSocketClient):
@@ -53,11 +28,6 @@ class Telephone(WebSocketClient):
 
     def opened(self):
         print('>> Connection started <<')
-        def run(*args):
-            client.run(tokens.DISCORD_TOKEN)
-        client.telephone = self
-        thread.start_new_thread(run, ())
-        self.bot = client
 
     def closed(self, code, reason=None):
         self.clear_bindings()
